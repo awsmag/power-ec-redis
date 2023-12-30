@@ -27,7 +27,7 @@ install the package fron npm
 ## Usage/Examples
 
 ```javascript
-import { getRedisClient } from "@awsmag/power-msk";
+import { getRedisClient } from "@awsmag/power-ec-redis";
 
 async function useWithEnvVarSet() {
   return await getRedisClient(); // if env variables are set
@@ -42,7 +42,7 @@ async function useWithoutEnvVarSet() {
 The package also supports a Koa middleware to attach the client to ctx.
 
 ```javascript
-import { getRedisClient, getRedisClientMw } from "@awsmag/power-msk";
+import { getRedisClient, getRedisClientMw } from "@awsmag/power-ec-redis";
 import Koa from "koa";
 
 const server = new Koa();
