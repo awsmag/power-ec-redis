@@ -59,3 +59,5 @@ const url = "redis://localhost:6379";
 const redisClient = ctx.redisClient;
 // perform functions using redisClient
 ```
+
+The package is developed and maintained by [S25Digital](https://s25.digital). You can also check our blog [AWSMAG](https://awsmag.com)
