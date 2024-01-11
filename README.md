@@ -12,7 +12,7 @@ This package does not support cluster.
 
 The package supports two env variables
 
-`CONNECTION_URI`: Connection string to connect
+`EC_REDIS_CONNECTION_URI`: Connection string to connect
 
 env vars are optional. You can eithr configure these or can pass them to the function.
 
