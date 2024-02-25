@@ -12,9 +12,9 @@ This package does not support cluster.
 
 The package supports two env variables
 
-`CONNECTION_URI`: Connection string to connect
+`POWER_EC_REDIS_CONNECTION_URI`: Connection string to connect
 
-env vars are optional. You can eithr configure these or can pass them to the function.
+env vars are optional. You can either configure these or can pass them to the function.
 
 ## Installation
 
@@ -56,8 +56,8 @@ const url = "redis://localhost:6379";
 
 // it will be available as `redisClient` in ctx. In your handler use it like below.
 
-const redisClient = ctx.redisClient;
 // perform functions using redisClient
+const redisClient = ctx.redisClient;
 ```
 
 The package is developed and maintained by [S25Digital](https://s25.digital). You can also check our blog [AWSMAG](https://awsmag.com)
