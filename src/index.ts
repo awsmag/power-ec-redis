@@ -1,3 +1,4 @@
+import { RedisClientType } from "redis";
 import config from "./config";
 import { getClient } from "./client";
 
@@ -12,3 +13,5 @@ export function getRedisClient(
 
   return getClient(url);
 }
+
+export type RedisClient = RedisClientType;
