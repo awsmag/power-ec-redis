@@ -5,7 +5,7 @@ import { getClient } from "./client";
 export * from "./koa-mw";
 
 export function getRedisClient(
-  url: string = config.url,
+  url: string = config.connectionURI,
 ) {
   if (!url) {
     throw new Error("url is required");
