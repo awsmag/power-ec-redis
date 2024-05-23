@@ -3,21 +3,26 @@ import config from "./config";
 
 let client: RedisClientType;
 
-async function connectRedis(url: string) {
+export interface IOptions {
+  pingInterval?: number
+}
+
+async function connectRedis(url: string, opts: IOptions = {}) {
   if (!url) {
     throw new Error("Connection url is required");
   }
 
   client = createClient({
     url: url,
+    ...opts
   });
 
   await client.connect();
 }
 
-export async function getClient(url: string = config.connectionURI) {
+export async function getClient(url: string = config.connectionURI, opts: IOptions = {}) {
   if (!client) {
-    await connectRedis(url);
+    await connectRedis(url, opts);
   }
 
   if (!client.isOpen) {
