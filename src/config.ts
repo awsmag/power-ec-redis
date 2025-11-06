@@ -6,7 +6,7 @@ const envDecoder = record({
 
 const data = envDecoder(process.env);
 
-const config: Record<string, any> = {
+const config: Record<string, string> = {
   connectionURI: data.POWER_EC_REDIS_CONNECTION_URI
 }
 

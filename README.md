@@ -1,63 +1,142 @@
 # power-ec-redis
 
-A package to help connect and work with Amazon Elasticache for Redis. You can run this package locally by connecting to a redis docker container.
+`power-ec-redis` is a lightweight utility package that simplifies connecting to **Amazon ElastiCache for Redis**.
+It can also be used locally via a Redis Docker container.
 
-This package does not support cluster.
+> **Note:** Cluster mode is **not supported** at this time.
 
-## Badges
+---
 
+## 🏷️ Badges
+
+![npm version](https://img.shields.io/npm/v/@awsmag/power-ec-redis)
+![npm downloads](https://img.shields.io/npm/dw/@awsmag/power-ec-redis)
+![node-current](https://img.shields.io/node/v/@awsmag/power-ec-redis)
+![types](https://img.shields.io/badge/TypeScript-supported-blue)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-## Environment Variables
+---
 
-The package supports two env variables
+## ✨ Features
 
-`POWER_EC_REDIS_CONNECTION_URI`: Connection string to connect
+* ✅ Simple Redis client initialization
+* ✅ Works with AWS ElastiCache & local Redis
+* ✅ Optional Koa middleware support
+* ✅ Optional env-based config
+* ✅ TypeScript ready
 
-env vars are optional. You can either configure these or can pass them to the function.
+---
 
-## Installation
-
-install the package fron npm
+## 📦 Installation
 
 ```bash
-  npm install @awsmag/power-ec-redis
+npm install @awsmag/power-ec-redis
 ```
 
-## Usage/Examples
+---
 
-```javascript
+## ⚙️ Environment Variables
+
+| Variable                        | Description          |
+| ------------------------------- | -------------------- |
+| `POWER_EC_REDIS_CONNECTION_URI` | Redis connection URI |
+
+Environment variables are **optional**. You may configure them or pass a URI directly.
+
+Example:
+
+```
+POWER_EC_REDIS_CONNECTION_URI=redis://localhost:6379
+```
+
+---
+
+## 🚀 Usage
+
+### Using env variables
+
+```ts
 import { getRedisClient } from "@awsmag/power-ec-redis";
 
-async function useWithEnvVarSet() {
-  return await getRedisClient(); // if env variables are set
-}
-
-async function useWithoutEnvVarSet() {
-  const url = "redis://localhost:6379";
-  return await getRedisClient(url); // if env variables are not set
+async function demo() {
+  const client = await getRedisClient(); // uses POWER_EC_REDIS_CONNECTION_URI
 }
 ```
 
-The package also supports a Koa middleware to attach the client to ctx.
+### Passing URI directly
 
-```javascript
+```ts
+import { getRedisClient } from "@awsmag/power-ec-redis";
+
+async function demo() {
+  const client = await getRedisClient("redis://localhost:6379");
+}
+```
+
+---
+
+## 🧩 Koa Middleware
+
+Injects a Redis client instance onto `ctx.redisClient`.
+
+```ts
 import { getRedisClient, getRedisClientMw } from "@awsmag/power-ec-redis";
 import Koa from "koa";
 
-const server = new Koa();
-const url = "redis://localhost:6379";
 (async () => {
-  await getRedisClient(url);
-  server.use(getRedisClientMw());
+  const app = new Koa();
 
-  // rest of your code goes here
+  await getRedisClient("redis://localhost:6379");
+  app.use(getRedisClientMw());
+
+  app.use(async (ctx) => {
+    const redisClient = ctx.redisClient;
+    await redisClient.set("foo", "bar");
+    ctx.body = await redisClient.get("foo");
+  });
+
+  app.listen(3000);
+  console.log("Server running on port 3000");
 })();
-
-// it will be available as `redisClient` in ctx. In your handler use it like below.
-
-// perform functions using redisClient
-const redisClient = ctx.redisClient;
 ```
 
-The package is developed and maintained by [S25Digital](https://s25.digital). You can also check our blog [AWSMAG](https://awsmag.com)
+---
+
+## 🐳 Local Development
+
+Use Docker to test locally:
+
+```bash
+docker run -d \
+  --name redis \
+  -p 6379:6379 \
+  redis:latest
+```
+
+Then set:
+
+```
+export POWER_EC_REDIS_CONNECTION_URI="redis://localhost:6379"
+```
+
+---
+
+## ❗ Limitations
+
+* ❌ Redis Cluster mode is **not supported**
+
+---
+
+## 👨‍🔧 Maintainers
+
+This package is developed and maintained by:
+
+* **[S25Digital](https://s25.digital)**
+* **[AWSMAG](https://awsmag.com)**
+
+---
+
+## 📄 License
+
+MIT — Free to use & modify
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
